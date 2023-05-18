@@ -1,25 +1,23 @@
-// function sum(arguments) {
-//     let sum = 0;
-    
-//     console.log(arguments);
-//     console.log(arguments.length);
-//     for (let i = 0; i < arguments.length; i++) {
-//         sum += arguments[i];
-//     }
-//     return sum;
-// };
+function sum() {
+    let sum = 0;
+
+    for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+};
 
 // console.log(sum(1, 2, 3, 4));
 // sum(1, 2, 3, 4, 5) === 15;
 
-// function sum(...arguments) {
-//     let sum = 0;
+function sum(...arguments) {
+    let sum = 0;
     
-//     for (let i = 0; i < arguments.length; i++) {
-//         sum += arguments[i];
-//     }
-//     return sum;
-// };
+    for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+};
 
 // console.log(sum(1, 2, 3, 4));
 
@@ -75,3 +73,63 @@ function curriedSum(numArgs) {
 
 // const sum = curriedSum(4);
 // console.log(sum(5)(30)(20)(1)); // => 56
+
+Function.prototype.curry = function (numArgs) {
+    const numbers = [];
+    let func = this;
+
+    function _curried(arg) {
+        numbers.push(arg);
+         if (numbers.length === numArgs) {
+            return func(numbers);
+         } else {
+            return _curried;
+         }
+    }
+    return _curried;
+};
+
+const multiply = function (args) { 
+    return args.reduce((acc, el) => acc*el);
+
+
+};
+
+// console.log(multiply([1, 2, 3]));
+
+// const var1 = multiply.curry(3);
+// console.log(var1(1)(2)(3));
+
+
+Function.prototype.curry = function (numArgs) {
+    const numbers = [];
+    let func = this;
+
+    function _curried(arg) {
+        numbers.push(arg);
+        if (numbers.length === numArgs) {
+            return func.apply(null, numbers)     
+        } else {
+                return _curried;
+             }
+        }
+        return _curried;
+    };
+
+
+    Function.prototype.curry = function (numArgs) {
+        const numbers = [];
+        
+        const _curried = function (arg) {
+            if (numbers.length === numArgs) {
+                return this(...numbers);   
+            } else {
+                    return _curried;
+            }
+        };
+
+            return _curried;
+
+    };
+        
+    
